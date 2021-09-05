@@ -12,9 +12,11 @@ const peer = new Peer(undefined, {
     port: "3030",
 }); 1
 const peers = {};
+var peerList = [];
+var currentPeer;
+
 
 let myVideoStream;
-var currentPeer;
 
 var getUserMedia =
     navigator.getUserMedia ||
@@ -27,6 +29,7 @@ navigator.mediaDevices
         audio: true,
     })
     .then((stream) => {
+        
         myVideoStream = stream;
         addVideoStream(myVideo, stream);
 
@@ -35,8 +38,12 @@ navigator.mediaDevices
             const video = document.createElement("video");
 
             call.on("stream", (userVideoStream) => {
-                addVideoStream(video, userVideoStream);
-                currentPeer = call.peerConnection;
+                if (!peerList.includes(call.peer)) {
+                    addVideoStream(video, userVideoStream);
+                    currentPeer = call.peerConnection;
+                    peerList.push(call.peer);
+                }
+                
             });
         });
 
@@ -54,14 +61,27 @@ navigator.mediaDevices
             }
         });
 
-        socket.on("createMessage", (msg) => {
-            console.log(msg);
-            let li = document.createElement("li");
-            li.innerHTML = msg;
-            all_messages.append(li);
-            main__chat__window.scrollTop = main__chat__window.scrollHeight;
-        });
-    });
+        
+        share__Btn.addEventListener("click", (e) => {
+        navigator.mediaDevices.getDisplayMedia({
+            video: {
+                cursor: "always"
+            },
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true
+            }
+        }).then((stream) => {
+            let videoTrack = stream.getVideoTracks()[0];
+            let sender = currentPeer.getSender().find(function (s) {
+                return s.track.kind == videoTrack.kind
+            })
+            sender.replaceTrack(videoTrack)
+        }).catch((err) => {
+            console.log("unable to get display media" + err)
+        })
+    })
+ });
 
 peer.on("call", function (call) {
     getUserMedia(
@@ -70,8 +90,11 @@ peer.on("call", function (call) {
             call.answer(stream); // Answer the call with stream.
             const video = document.createElement("video");
             call.on("stream", function (remoteStream) {
-                addVideoStream(video, remoteStream);
-                currentPeer = call.peerConnection
+                if (!peerList.includes(call.peer)) {
+                    addVideoStream(video, remoteStream);
+                    currentPeer = call.peerConnection
+                    peerList.push(call.peer);
+                }
             });
         },
         function (err) {
@@ -80,6 +103,13 @@ peer.on("call", function (call) {
     );
 });
 
+
+const ShowChat = (e) => {
+    e.classList.toggle("active");
+    document.body.classList.toggle("showChat");
+};
+
+
 peer.on("open", (id) => {
     socket.emit("join-room", ROOM_ID, id);
 });
@@ -87,31 +117,15 @@ socket.on("disconnect", function () {
     socket.emit("leave-room", ROOM_ID, currentUserId);
     video.remove();
 });
+socket.on("createMessage", (msg) => {
+            console.log(msg);
+            let li = document.createElement("li");
+            li.innerHTML = msg;
+            all_messages.append(li);
+            main__chat__window.scrollTop = main__chat__window.scrollHeight;
+        });
 
 
-const ShowChat = (e) => {
-    e.classList.toggle("active");
-    document.body.classList.toggle("showChat");
-};
-share__Btn.addEventListener("click", (e) => {
-    navigator.mediaDevices.getDisplayMedia({
-        video: {
-            cursor: "always"
-        },
-        audio: {
-            echoCancellation: true,
-            noiseSuppression: true
-        }
-    }).then((stream) => {
-        let videoTrack = stream.getVideoTracks()[0];
-        let sender = currentPeer.getSender().find(function (e) {
-            return s.track.kind == videoTrack.kind
-        })
-        sender.replaceTrack(videoTrack)
-    }).catch((err) => {
-        console.log("unable to get display media" + err)
-    })
-})
 
 //invite others
 const inviteButton = document.querySelector('.main__invite_button');
