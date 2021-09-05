@@ -1,0 +1,17 @@
+{
+  "name": "sim-learn",
+  "version": "0.0.0",
+  "description": "simLearn",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  },
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "peer": "^0.6.1",
+    "peerjs": "^1.3.2",
+    "socket.io": "^4.1.3",
+    "uuid": "^8.3.2"
+  }
+}
