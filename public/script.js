@@ -6,13 +6,15 @@ const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
 myVideo.muted = true;
 
-var peer = new Peer(undefined, {
+const peer = new Peer(undefined, {
     path: "/peerjs",
     host: "/",
     port: "3030",
-});
+}); 1
+const peers = {};
 
 let myVideoStream;
+var currentPeer;
 
 var getUserMedia =
     navigator.getUserMedia ||
@@ -34,11 +36,15 @@ navigator.mediaDevices
 
             call.on("stream", (userVideoStream) => {
                 addVideoStream(video, userVideoStream);
+                currentPeer = call.peerConnection;
             });
         });
 
         socket.on("user-connected", (userId) => {
             connectToNewUser(userId, stream);
+        });
+        socket.on("user-disconnected", (userId) => {
+            if (peers[userId]) peers[userId].close();
         });
 
         document.addEventListener("keydown", (e) => {
@@ -61,10 +67,11 @@ peer.on("call", function (call) {
     getUserMedia(
         { video: true, audio: true },
         function (stream) {
-            call.answer(stream); // Answer the call with an A/V stream.
+            call.answer(stream); // Answer the call with stream.
             const video = document.createElement("video");
             call.on("stream", function (remoteStream) {
                 addVideoStream(video, remoteStream);
+                currentPeer = call.peerConnection
             });
         },
         function (err) {
@@ -76,11 +83,36 @@ peer.on("call", function (call) {
 peer.on("open", (id) => {
     socket.emit("join-room", ROOM_ID, id);
 });
+socket.on("disconnect", function () {
+    socket.emit("leave-room", ROOM_ID, currentUserId);
+    video.remove();
+});
+
 
 const ShowChat = (e) => {
     e.classList.toggle("active");
     document.body.classList.toggle("showChat");
 };
+share__Btn.addEventListener("click", (e) => {
+    navigator.mediaDevices.getDisplayMedia({
+        video: {
+            cursor: "always"
+        },
+        audio: {
+            echoCancellation: true,
+            noiseSuppression: true
+        }
+    }).then((stream) => {
+        let videoTrack = stream.getVideoTracks()[0];
+        let sender = currentPeer.getSender().find(function (e) {
+            return s.track.kind == videoTrack.kind
+        })
+        sender.replaceTrack(videoTrack)
+    }).catch((err) => {
+        console.log("unable to get display media" + err)
+    })
+})
+
 //invite others
 const inviteButton = document.querySelector('.main__invite_button');
 inviteButton.addEventListener("click", (e) => {
@@ -98,8 +130,14 @@ const connectToNewUser = (userId, streams) => {
     call.on("stream", (userVideoStream) => {
         console.log(userVideoStream);
         addVideoStream(video, userVideoStream);
-    });
-};
+    })
+    call.on('close', () => {
+        video.remove()
+
+    })
+
+    peers[userId] = call;
+}
 
 const addVideoStream = (videoEl, stream) => {
     videoEl.srcObject = stream;
@@ -144,9 +182,6 @@ const muteUnmute = () => {
 const exitButton = document.querySelector('.leaveMeeting');
 
 exitButton.addEventListener("click", (e) => {
-    //window.close();
-    //process.exit()
-    //open(location, '_self').close();
     if (confirm("Are you sure?")) {
         var win = window.open("leaveMeeting.html", "_self");
         win.close();
