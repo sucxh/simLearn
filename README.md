@@ -1,6 +1,6 @@
 # simLearn
 ## Motivations
-A video conferencing application with WebRTC, socket and nodejs
+This is a video conferencing web application with node.js using WebRTC and socket.io as the signaling server.
 
 ## Usage
 
