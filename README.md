@@ -2,7 +2,7 @@
 ## Motivations
 A video conferencing application with WebRTC, socket and nodejs
 
-##Usage
+## Usage
 
 The signalling server uses node.js and can be started as such
 $ npm install
