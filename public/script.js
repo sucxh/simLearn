@@ -10,7 +10,8 @@ const peer = new Peer(undefined, {
     path: "/peerjs",
     host: "/",
     port: "3030",
-}); 1
+});
+
 const peers = {};
 var peerList = [];
 var currentPeer;
@@ -29,21 +30,21 @@ navigator.mediaDevices
         audio: true,
     })
     .then((stream) => {
-        
+
         myVideoStream = stream;
         addVideoStream(myVideo, stream);
 
         peer.on("call", (call) => {
             call.answer(stream);
             const video = document.createElement("video");
+            currentPeer = call;
 
             call.on("stream", (userVideoStream) => {
                 if (!peerList.includes(call.peer)) {
                     addVideoStream(video, userVideoStream);
-                    currentPeer = call.peerConnection;
                     peerList.push(call.peer);
                 }
-                
+
             });
         });
 
@@ -61,38 +62,49 @@ navigator.mediaDevices
             }
         });
 
-        
+
         share__Btn.addEventListener("click", (e) => {
-        navigator.mediaDevices.getDisplayMedia({
-            video: {
-                cursor: "always"
-            },
-            audio: {
-                echoCancellation: true,
-                noiseSuppression: true
-            }
-        }).then((stream) => {
-            let videoTrack = stream.getVideoTracks()[0];
-            let sender = currentPeer.getSender().find(function (s) {
-                return s.track.kind == videoTrack.kind
+            navigator.mediaDevices.getDisplayMedia({
+                video: {
+                    cursor: "always"
+                },
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true
+                }
+            }).then((stream) => {
+                const screenStream = stream;
+
+                let videoTrack = screenStream.getVideoTracks()[0];
+
+                if (peer) {
+                    console.log("Current Peer", currentPeer);
+                    var video = document.createElement("video");
+                    addVideoStream(video, stream);
+
+                    let sender = currentPeer.peerConnection.getSenders().find(function (s) {
+                        return s.track.kind == videoTrack.kind;
+                    })
+                    sender.replaceTrack(videoTrack)
+                    screenSharing = true
+                }
+
+            }).catch((err) => {
+                console.log("unable to get display media" + err)
             })
-            sender.replaceTrack(videoTrack)
-        }).catch((err) => {
-            console.log("unable to get display media" + err)
         })
-    })
- });
+    });
 
 peer.on("call", function (call) {
     getUserMedia(
         { video: true, audio: true },
         function (stream) {
+            currentPeer = call
             call.answer(stream); // Answer the call with stream.
             const video = document.createElement("video");
             call.on("stream", function (remoteStream) {
                 if (!peerList.includes(call.peer)) {
                     addVideoStream(video, remoteStream);
-                    currentPeer = call.peerConnection
                     peerList.push(call.peer);
                 }
             });
@@ -118,12 +130,12 @@ socket.on("disconnect", function () {
     video.remove();
 });
 socket.on("createMessage", (msg) => {
-            console.log(msg);
-            let li = document.createElement("li");
-            li.innerHTML = msg;
-            all_messages.append(li);
-            main__chat__window.scrollTop = main__chat__window.scrollHeight;
-        });
+    console.log(msg);
+    let li = document.createElement("li");
+    li.innerHTML = msg;
+    all_messages.append(li);
+    main__chat__window.scrollTop = main__chat__window.scrollHeight;
+});
 
 
 
@@ -139,7 +151,7 @@ inviteButton.addEventListener("click", (e) => {
 
 const connectToNewUser = (userId, streams) => {
     var call = peer.call(userId, streams);
-    console.log(call);
+    currentPeer = call;
     var video = document.createElement("video");
     call.on("stream", (userVideoStream) => {
         console.log(userVideoStream);
