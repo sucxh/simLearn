@@ -12,6 +12,7 @@
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.3.1/peerjs.min.js.map"></script>
     <script src="/socket.io/socket.io.js"></script>
+
     <script>
         const ROOM_ID = "<%= roomId %>";
     </script>
@@ -21,7 +22,7 @@
     <div class="main">
       <div class="main__left">
         <div class="main__videos">
-          <div id="video-grid"></div>
+            <div id="video-grid"></div>
         </div>
 
 
@@ -61,6 +62,12 @@
                     <i class="fa fa-share"></i>
                     <span>Share Screen</span>
                 </div>
+
+                <div class="main__controls_button"
+                    id="record__Btn">
+                    <i id="iconRecord" class="fa fa-circle"></i>
+                    <span id="recordLabel">Record Session</span>
+                </div>
                 
                 
 
@@ -92,7 +99,8 @@
         </div>
       </div>
     </div>
-
+    <script src="/static/video-stream-merger/dist/video-stream-merger.js"></script>
     <script src="script.js"></script>
+
   </body>
 </html>

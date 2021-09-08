@@ -34,11 +34,23 @@
     <Content Include="public\style.css" />
     <Content Include="README.md" />
     <Content Include="server.js" />
+    <Content Include="static\video-stream-merger\dist\video-stream-merger.js" />
+    <Content Include="static\video-stream-merger\LICENSE" />
+    <Content Include="static\video-stream-merger\package.json" />
+    <Content Include="static\video-stream-merger\README.md" />
     <Content Include="views\room.ejs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public\" />
+    <Folder Include="static\" />
+    <Folder Include="static\video-stream-merger\" />
+    <Folder Include="static\video-stream-merger\dist\" />
+    <Folder Include="static\video-stream-merger\src\" />
     <Folder Include="views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="static\video-stream-merger\dist\index.d.ts" />
+    <TypeScriptCompile Include="static\video-stream-merger\src\index.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
 </Project>

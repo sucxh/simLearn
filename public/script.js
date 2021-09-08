@@ -6,6 +6,11 @@ const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
 myVideo.muted = true;
 
+// globals for MediaRecorder
+
+let mediaRecorder;
+let recordedBlobs;
+
 const peer = new Peer(undefined, {
     path: "/peerjs",
     host: "/",
@@ -14,7 +19,8 @@ const peer = new Peer(undefined, {
 
 const peers = {};
 var peerList = [];
-var currentPeer;
+var currentPeer = null;
+var isRecording = false;
 
 
 let myVideoStream;
@@ -32,6 +38,8 @@ navigator.mediaDevices
     .then((stream) => {
 
         myVideoStream = stream;
+        window.stream = stream;
+
         addVideoStream(myVideo, stream);
 
         peer.on("call", (call) => {
@@ -62,6 +70,10 @@ navigator.mediaDevices
             }
         });
 
+        record__Btn.addEventListener("click", (e) => {
+            !isRecording ? startRecording() : stopRecording()
+        })
+
 
         share__Btn.addEventListener("click", (e) => {
             navigator.mediaDevices.getDisplayMedia({
@@ -74,6 +86,7 @@ navigator.mediaDevices
                 }
             }).then((stream) => {
                 const screenStream = stream;
+                window.stream = stream;
 
                 let videoTrack = screenStream.getVideoTracks()[0];
 
@@ -101,6 +114,7 @@ peer.on("call", function (call) {
         function (stream) {
             currentPeer = call
             call.answer(stream); // Answer the call with stream.
+            console.log("Init window stream with stream")
             const video = document.createElement("video");
             call.on("stream", function (remoteStream) {
                 if (!peerList.includes(call.peer)) {
@@ -166,7 +180,9 @@ const connectToNewUser = (userId, streams) => {
 }
 
 const addVideoStream = (videoEl, stream) => {
+
     videoEl.srcObject = stream;
+
     videoEl.addEventListener("loadedmetadata", () => {
         videoEl.play();
     });
@@ -238,3 +254,109 @@ const setMuteButton = () => {
 };
 
 
+
+//Video recording
+
+function handleDataAvailable(event) {
+    console.log('handleDataAvailable', event);
+    if (event.data && event.data.size > 0) {
+        recordedBlobs.push(event.data);
+    }
+}
+
+const startRecording = () => {
+
+    const VIDEO_WIDTH = 1280
+    const VIDEO_HEIGHT = 1024
+    var numStreams = 0
+    var curStream = 0
+
+
+    var merger = new VideoStreamMerger({
+        width: VIDEO_WIDTH,
+        height: VIDEO_HEIGHT
+    })
+
+    merger.start()
+
+    document.getElementById("iconRecord").className = "fa fa-square";
+    document.getElementById("recordLabel").innerText = "Stop Recording"
+
+
+    const videoList = document.querySelectorAll('video');
+
+    const videTags = [...videoList]; // converts NodeList to Array
+    videTags.forEach(video => {
+        const curStream = numStreams
+        merger.addStream(video.srcObject, {
+            mute: numStreams > 0,
+            draw: function (ctx, frame, done) {
+                if (curStream >= numStreams) curStream = 0
+
+                ctx.drawImage(frame, VIDEO_WIDTH * curStream, 0, VIDEO_WIDTH, VIDEO_HEIGHT)
+
+                done()
+            }
+        })
+
+        numStreams++
+        merger.setOutputSize(numStreams * VIDEO_WIDTH, VIDEO_HEIGHT)
+
+    });
+
+
+
+
+    isRecording = true;
+    recordedBlobs = [];
+    const mimeType = "video/webm;codecs=vp9,opus";
+    const options = { mimeType };
+
+    try {
+        mediaRecorder = new MediaRecorder(merger.result, options);
+    } catch (e) {
+        console.error('Exception while creating MediaRecorder:', e);
+        errorMsgElement.innerHTML = `Exception while creating MediaRecorder: ${JSON.stringify(e)}`;
+        return;
+    }
+
+    console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+
+    mediaRecorder.onstop = (event) => {
+        console.log('Recorder stopped: ', event);
+        console.log('Recorded Blobs: ', recordedBlobs);
+        downloadFile();
+        isRecording = false;
+        merger.destroy();
+
+    };
+
+    mediaRecorder.ondataavailable = handleDataAvailable;
+    mediaRecorder.start();
+    console.log('MediaRecorder started', mediaRecorder);
+}
+
+function stopRecording() {
+    document.getElementById("iconRecord").className = "fa fa-circle";
+    document.getElementById("recordLabel").innerText = "Start Recording"
+    mediaRecorder.stop();
+}
+
+function downloadFile() {
+
+    //Download file
+    const blob = new Blob(recordedBlobs, { type: 'video/mp4' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    var datetime = new Date();
+
+    a.download = datetime + 'Session.mp4';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }, 100);
+}

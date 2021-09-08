@@ -1,0 +1,69 @@
+{
+  "_from": "video-stream-merger@^4.0.1",
+  "_id": "video-stream-merger@4.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-VazYSr8tk6S/zkOq5jpR/ryy1HnGxm5XCw+d2Ejpqy1m6d71oZpyFG82dUkgAo7dg/lk3k4TqvJPtuRUtR8URA==",
+  "_location": "/video-stream-merger",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "video-stream-merger@^4.0.1",
+    "name": "video-stream-merger",
+    "escapedName": "video-stream-merger",
+    "rawSpec": "^4.0.1",
+    "saveSpec": null,
+    "fetchSpec": "^4.0.1"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/video-stream-merger/-/video-stream-merger-4.0.1.tgz",
+  "_shasum": "b0061251bd211121d1256ccf9e2be9477e59d5cb",
+  "_spec": "video-stream-merger@^4.0.1",
+  "_where": "C:\\Users\\User\\Desktop\\simLearn",
+  "author": {
+    "name": "Thomas Mullen"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Create a composite from multiple MediaStreams.",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "eslint": "^7.29.0",
+    "http-server": "^0.12.3",
+    "standard": "^8.6.0",
+    "tape": "^4.6.3",
+    "typescript": "^3.9.7",
+    "webpack": "^5.41.0",
+    "webpack-cli": "^3.3.10"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "files": [
+    "/dist",
+    "/src",
+    "README.md"
+  ],
+  "license": "MIT",
+  "main": "dist/video-stream-merger.js",
+  "name": "video-stream-merger",
+  "scripts": {
+    "build": "webpack --mode=production",
+    "dev": "webpack --mode=development --watch",
+    "lint": "eslint . --ext .ts",
+    "lint-fix": "eslint . --ext .ts --fix",
+    "start": "http-server -c-1 .",
+    "test": "standard --fix dist/* && npm run test-browser-local",
+    "test-browser-local": "zuul --local -- test/*.js"
+  },
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "version": "4.0.1"
+}
