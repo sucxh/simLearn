@@ -1,5 +1,7 @@
 const socket = io("/");
 const chatInputBox = document.getElementById("chat_message");
+const chatMessagesBox = document.getElementById("chat_box");
+
 const all_messages = document.getElementById("all_messages");
 const main__chat__window = document.getElementById("main__chat__window");
 const videoGrid = document.getElementById("video-grid");
@@ -130,9 +132,15 @@ peer.on("call", function (call) {
 });
 
 
-const ShowChat = (e) => {
-    e.classList.toggle("active");
-    document.body.classList.toggle("showChat");
+const ShowChat = () => {
+    console.log("show chat")
+    console.log(chatMessagesBox.style.visibility)
+    if (chatMessagesBox.style.display == "none") {
+        chatMessagesBox.style.display = "";
+    } else {
+        chatMessagesBox.style.display = "none";
+    }
+
 };
 
 
@@ -345,14 +353,14 @@ function stopRecording() {
 function downloadFile() {
 
     //Download file
-    const blob = new Blob(recordedBlobs, { type: 'video/mp4' });
+    const blob = new Blob(recordedBlobs, { type: 'video/webm' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.style.display = 'none';
     a.href = url;
     var datetime = new Date();
 
-    a.download = datetime + 'Session.mp4';
+    a.download = datetime + 'Session.webm';
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
