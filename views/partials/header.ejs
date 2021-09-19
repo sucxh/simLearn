@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta content="text/html; charset=iso-8859-2" http-equiv="Content-Type">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+          <style>
+            .mySlides {display:none;}
+          </style>
+        </head>
+
+
+  <body>
+    <!-- SIMLearn Logo-->
+    <img src="https://i.ibb.co/r5RNLks/SIMLearn-Logo.png" alt="SIMLearn-Logo">
+      </a>
+
+
+
+      <!--Line-->
+      <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+
+      <!--Mini Automatic Slide Show-->
+      <div class="w3-content w3-section" style="max-width:600px">
+        <!--SIM Web Banner-->
+        <img class="mySlides" src="/images/SIMWebBanner.png" width:100=""% height="200" >
+          <!--SIM Campus Picture-->
+          <img class="mySlides" src="/images/SIMCampus.jpeg" width:100=""% height="200">
+            <!--Modern Learning-->
+            <img class="mySlides" src="/images/SIMMLS.jpeg" width:100=""% height="200">
+    </div>
+
+      <script>
+        var myIndex = 0;
+        carousel();
+
+        function carousel() {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";  
+          }
+          myIndex++;
+          if (myIndex > x.length) {myIndex = 1}    
+          x[myIndex-1].style.display = "block";  
+          setTimeout(carousel, 3000); // Change image every 3 seconds
+        }
+      </script>
+
+      <br></br>
+
+      <!--Navigation Bar, main.css-->
+      <ul class="nav-ul">
+        <li>
+          <a href="#home">Home</a>
+        </li>
+        <li>
+          <a href="#above">About</a>
+        </li>
+        <li>
+          <a href="#contact us">Contact</a>
+        </li>
+        <li>
+          <a href="Help and Support">Help and Support</a>
+        </li>
+      </ul>
+
+    </body>
+</html>

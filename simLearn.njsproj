@@ -28,8 +28,19 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="public\about.css" />
+    <Content Include="public\dashboard.css" />
+    <Content Include="public\home.css" />
+    <Content Include="public\images\SIMCampus.jpeg" />
+    <Content Include="public\images\SIMLearnLogo.png" />
+    <Content Include="public\images\SIMMLS.jpeg" />
+    <Content Include="public\images\SIMWebBanner.png" />
+    <Content Include="public\main.css" />
+    <Content Include="views\about.ejs" />
+    <Content Include="views\layouts\full-width.ejs" />
+    <Content Include="views\layouts\sidebar.ejs" />
+    <Content Include="views\login.ejs" />
     <Content Include="package.json" />
-    <Content Include="public\leaveMeeting.html" />
     <Content Include="public\script.js" />
     <Content Include="public\style.css" />
     <Content Include="README.md" />
@@ -38,15 +49,22 @@
     <Content Include="static\video-stream-merger\LICENSE" />
     <Content Include="static\video-stream-merger\package.json" />
     <Content Include="static\video-stream-merger\README.md" />
+    <Content Include="views\about.ejs" />
+    <Content Include="views\login.ejs" />
+    <Content Include="views\partials\footer.ejs" />
+    <Content Include="views\partials\header.ejs" />
     <Content Include="views\room.ejs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public\" />
+    <Folder Include="public\images\" />
     <Folder Include="static\" />
     <Folder Include="static\video-stream-merger\" />
     <Folder Include="static\video-stream-merger\dist\" />
     <Folder Include="static\video-stream-merger\src\" />
     <Folder Include="views\" />
+    <Folder Include="views\layouts\" />
+    <Folder Include="views\partials\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="static\video-stream-merger\dist\index.d.ts" />

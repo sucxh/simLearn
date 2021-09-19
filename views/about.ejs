@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Welcome Back!</h2>
+    <p>My Current Modules</p>
+    <button class="collapsible">CM2010 Software Design and Development</button>
+    <div class="content">
+      <p>The course is organised into five high level topics, each of which contains four sub-topics. The subtopics are detailed in the table towards the end of this document. The list of the high level topics is
+        as follows:<br>
+        Topic 1: Modules and module complexity<br>
+        Topic 2: Test-driven development<br>
+        Topic 3: Robust and secure programming<br>
+        Topic 4: User testing<br>
+        Topic 5: Version control<br>
+        </p>
+            <form action="./room" method ="GET"> 
+      <button class="button">Start Meeting</button>
+      </form>
+      <br></br>
+    </div>
+
+
+
+    <button class="collapsible">CM2015 Programming with Data</button>
+    <div class="content">
+      <p>This module explores a multitude of ways to work with data of different types. Students will
+         take an activity-centric approach to learning, exploring some of the complexities around data
+         through a variety of lenses and a range of different challenges.
+         <br>
+         Each topic covers a different set
+         of skills that are useful in handling, managing and working with data from a variety of sources.
+         Through the identification and exploration of data that is constructed, stored and retrieved in
+         different ways students will gain practical experience in handling a variety of technical
+         challenges.<br>
+         1. Setting up your programming environment<br>
+         2. Variables, control flow and functions<br>
+         3. Data structures<br>
+         4. Reading and writing data on the filesystem<br>
+         5. Retrieving data from the web<br>
+         6. Retrieving data from databases using query languages<br>
+         7. Cleaning and restructuring data, part one<br>
+         8. Cleaning and restructuring data, part two<br>
+         9. Data plotting<br>
+         10. Version control systems<br>
+         </p>
+      <form action="./room" method ="GET"> 
+      <button class="button">Start Meeting</button>
+      </form>
+      <br></br>
+    </div>
+
+
+
+    <button class="collapsible">CM2020 Agile Software Projects</button>
+    <div class="content">
+      <p>This module aims to provide insights and practice in software development using contemporary
+         methods to produce software that meets the needs of users and supports an organisation’s business
+         function. The module will enable you to gain competence in the conceptualisation of a technologybased solution to a real-world problem, fulfilling the requirements of users and taking constraints
+         imposed by the prevailing and foreseen market conditions and lessons learned from prototypes into
+         account. Topics include:<br>
+         1. Project management and team working<br>
+         2. Requirements gathering and specification<br>
+         3. Market and solutions research<br>
+         4. User-centred design and prototyping<br>
+         5. Project proposal<br>
+         6. Agile development methodologies<br>
+         7. Software testing<br>
+         8. Software validation and user testing<br>
+         9. Professional practice<br>
+         10. Final project<br>
+         </p>
+      <form action="./room" method ="GET"> 
+      <button class="button">Start Meeting</button>
+      </form>
+      <br></br>
+    </div>
+
+
+
+    <button class="collapsible">CM2025 Computer Security</button>
+    <div class="content">
+      <p>This module aims to provide you with an understanding of the need for computer security and
+         the technologies that support it. It has both a theoretical component that will teach you
+         mathematical underpinnings of security systems and a practical element that will help you
+         discover the pitfalls of security design and to comprehend the mathematics underlying the
+         protocols by working on small examples.<br>
+         The module consists of the following topcis:<br>
+         1. Introduction to computer security and malware<br>
+         2. Network security<br>
+         3. Operating system security<br>
+         4. Understanding cryptography<br>
+         5. RSA public-key cryptography<br>
+         6. Cryptographic protocols and key management<br>
+         7. Blockchain protocols, part 1<br>
+         8. Blockchain protocols, part 2<br>
+         9. Security models<br>
+         10. Social Issues in Computer Security<br>
+         </p>
+      <form action="./room" method ="GET"> 
+      <button class="button">Start Meeting</button>
+      </form>
+      <br></br>
+    </div>
+
+
+    <script>
+      var coll = document.getElementsByClassName("collapsible");
+      var i;
+
+      for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+    </script>
+  </body>
+</html>

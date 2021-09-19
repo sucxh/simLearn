@@ -1,7 +1,7 @@
 const socket = io("/");
 const chatInputBox = document.getElementById("chat_message");
 const chatMessagesBox = document.getElementById("chat_box");
-
+const username = document.getElementById("username").value;
 const all_messages = document.getElementById("all_messages");
 const main__chat__window = document.getElementById("main__chat__window");
 const videoGrid = document.getElementById("video-grid");
@@ -154,7 +154,8 @@ socket.on("disconnect", function () {
 socket.on("createMessage", (msg) => {
     console.log(msg);
     let li = document.createElement("li");
-    li.innerHTML = msg;
+    li.innerHTML = username + " : " + msg;
+    li.appendChild(document.createElement("br"));
     all_messages.append(li);
     main__chat__window.scrollTop = main__chat__window.scrollHeight;
 });
@@ -233,7 +234,7 @@ const exitButton = document.querySelector('.leaveMeeting');
 
 exitButton.addEventListener("click", (e) => {
     if (confirm("Are you sure?")) {
-        var win = window.open("leaveMeeting.html", "_self");
+        document.location.href = "/dashboard"
         win.close();
     }
 });

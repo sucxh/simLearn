@@ -1,0 +1,108 @@
+body {
+    background-color: #eee;
+    font-size: 26px;
+    font-family: Arial;
+}
+
+.wrapper {
+    width: 1250px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 10px;
+}
+
+
+header {
+    background-color: ghostwhite;
+}
+
+footer {
+    background-color: ghostwhite;
+    padding: 20px;
+}
+
+main {
+    background-color: cornsilk;
+    padding: 20px;
+}
+
+
+.layout-sidebar {
+    display: grid;
+    grid-column-gap: 20px;
+    grid-template-columns: 2fr 1fr;
+    background-color: whitesmoke;
+}
+
+
+
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+    .active, .collapsible:hover {
+        background-color: #555;
+    }
+
+.content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+}
+
+.nav-ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+        li a:hover:not(.active) {
+            background-color: grey;
+        }
+
+.active {
+    background-color: #04AA6D;
+}
+
+.rcorners2 {
+    border-radius: 20px;
+    border: 2px solid black;
+    padding: 20px;
+}
+
+.button {
+    background-color: #f44336; /* Red */
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}

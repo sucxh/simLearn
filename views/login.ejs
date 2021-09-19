@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+  <link type="text/css" rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <style>
+
+  </style>
+
+
+
+    <div class="signin">
+      <div class="back-img">
+        <div class="sign-in-text">
+
+          <h2 class="active">Sign In</h2>
+
+        </div><!--/.sign-in-text-->
+        <div class="layer">
+        </div><!--/.layer-->
+        <p class="point">&#9650;</p>
+      </div><!--/.back-img-->
+      
+      <div class="form-section">      
+        <form action="./loginverify" method ="POST"> 
+          <!--Email-->
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label>Username: </label>
+			<input type="text" name="username" placeholder="Enter Username here" style='width:200px'>
+          </div>
+          <br/>
+
+          <!--Password-->
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label>Password: </label>
+			      <input type="password" name="password" placeholder="Enter Password here" style='width:200px'>
+          </div>
+          <br/>
+          <p class="forgot-text">Forgot Password ?</p>
+          <!--CheckBox-->
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+          <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
+          <span class="keep-text mdl-checkbox__label">Keep me Signed In</span>
+        </label>
+
+      </div>
+      
+      <button type="submit" class="sign-in-btn mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored">
+        Sign In
+      </button><!--/button-->
+   </div>
+</form>
+
+  </body>
