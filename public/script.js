@@ -170,8 +170,8 @@ inviteButton.addEventListener("click", (e) => {
 });
 
 
-// CHAT
 
+//calling function to add user video grid and remove when user leave
 const connectToNewUser = (userId, streams) => {
     var call = peer.call(userId, streams);
     currentPeer = call;
@@ -187,7 +187,7 @@ const connectToNewUser = (userId, streams) => {
 
     peers[userId] = call;
 }
-
+//add new user video grid function
 const addVideoStream = (videoEl, stream) => {
 
     videoEl.srcObject = stream;
